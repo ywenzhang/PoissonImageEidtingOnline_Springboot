@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.js" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+          crossorigin="anonymous">
+    <title>Home Page</title>
+</head>
+<body>
+<!-- NavBar Component Code -->
+<nav class="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="Dashboard.html">
+            Poisson Editing
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile-nav">
+            <span class="navbar-toggler-icon" />
+        </button>
+
+        <div class="collapse navbar-collapse" id="mobile-nav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">
+                        Dashboard
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link " href="/registration">
+                        Sign Up
+                    </a>
+                </li>
+                <th:block th:if="${session == null||session.user==null}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">
+                            Login
+                        </a>
+                    </li>
+                </th:block>
+                <th:block th:if="${session.user!=null}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">
+                            Logout
+                        </a>
+                    </li>
+                </th:block>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!--dashboard-->
+<div class="projects">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="display-4 text-center">Spectacular!</h1>
+                <br />
+                <a href="/upload" class="btn btn-lg btn-info">
+                    Create Your Own Image
+                </a>
+                <br />
+                <hr />
+                <th:block th:if="${imageNumbers!=0}">
+                    <div class="container">
+                        <div class="card card-body bg-light mb-3">
+                            <div class="row">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">Before Image Fusion</th>
+                                                <th class="text-center">After Image Fusion</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!--/*@thymesVar id="imageNumbers" type=""*/-->
+                                                <tr th:each ="i:${#numbers.sequence(0,imageNumbers-1)}">
+                                                    <td class="text-center"><img style="vertical-align: bottom;" width="100%" height="100%" th:src="@{{index}beforeImage.jpg(index=${i})}"></td>
+                                                    <td class="text-center"><img style="vertical-align: bottom;" width="100%" height="100%" th:src="@{{index}outputImage.jpg(index=${i})}"></td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+        <hr/>
+                <th:block th:if="${data.totalPages!=0}">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item" th:each="i : ${#numbers.sequence(0,data.totalPages-1)}">
+                            <a th:href="@{/(page=${i})}" th:text="${i}" class="nav-link"></a>
+                        </li>
+                    </ul>
+                </th:block>
+                <th:block th:if="${data.totalPages==0}">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item" th:each="i : ${#numbers.sequence(0,0)}">
+                            <a th:href="@{/(page=${i})}" th:text="${i}" class="nav-link"></a>
+                        </li>
+                    </ul>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="webjars/jquery/3.1.0/jquery.min.js"></script>
+</body>
+</html>

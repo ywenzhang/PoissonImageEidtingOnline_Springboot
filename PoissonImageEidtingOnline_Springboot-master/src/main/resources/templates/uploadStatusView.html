@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link
+          rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.js"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+          crossorigin="anonymous"
+  />
+  <link
+          rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+          crossorigin="anonymous"
+  />
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+  <title>upload status</title>
+</head>
+<body>
+<!-- NavBar Component Code -->
+<nav class="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      Poisson Editing
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile-nav">
+            <span class="navbar-toggler-icon" >
+    </button>
+
+    <div class="collapse navbar-collapse" id="mobile-nav">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">
+            Dashboard
+          </a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link " href="/registration">
+            Sign Up
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/login">
+            Login
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">
+            Logout
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div id="div1" class="projects">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <form action="/status" method="post">
+          <h3 class="display-6 text-center">Locate your Image</h3>
+          <div class="form-group">
+            <label for="positionX">Relative X position</label>
+            <input class="form-control" id = "positionX" name = "x">
+          </div>
+          <div class="form-group">
+            <label for="positionY">Relative Y position</label>
+            <input class="form-control" id = "positionY" name = "y">
+          </div>
+        </br>
+        </br>
+        <div class="container text-md-center">
+          <div id="div1">
+            <img
+                    id="background"
+                    src="background.jpg"
+            />
+            <img
+                    id="drag"
+                    src="maskDisplay.png"
+                    border="5"
+            />
+          </div>
+        </div>
+        <br/>
+        <br/>
+
+        <h3 class="display-6 text-center">Select the Algorithms</h3>
+        <br/>
+        <br/>
+        <div class="container text-md-center">
+            <label class="checkbox-inline"><input type="checkbox" value="true" name="Multigrid">Multigrid</label>
+            &emsp;
+            &emsp;
+            &emsp;
+            &emsp;
+            &emsp;
+            &emsp;
+            &emsp;
+            &emsp;
+            &emsp;
+            &emsp;
+            &emsp;
+            &emsp;
+            <label class="checkbox-inline"><input type="checkbox" value="true" name="GaussianSeidel">Gaussian-Seidel</label>
+            <br/>
+            <br/>
+            <br/>
+            <div class="container text-md-center">
+              <button type="submit" class="btn btn-primary" >Submit</button>
+            </div>
+        </form>
+        </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  $("#drag").draggable();
+  $("#div1").droppable({
+    drop: function(ev, ui) {
+      // console.log(ui);
+      ev.preventDefault();
+      var dragData = ui.draggable.attr("id");
+      ev.target.appendChild(document.getElementById(dragData));
+      $("#" + dragData).css({
+        top: ui.offset.top,
+        left: ui.offset.left,
+        position: "absolute"
+      });
+      centerImages();
+    }
+  });
+
+  function centerImages() {
+    var image1 = document.getElementById("drag");
+    var rect1 = image1.getBoundingClientRect();
+    var image2 = document.getElementById("background");
+    var rect2 = image2.getBoundingClientRect();
+    var cx = rect1.left-rect2.left; // find center of first image
+    var cy = rect1.top-rect2.top;
+    document.getElementById("positionX").value = cx.toString();
+    document.getElementById("positionY").value = cy.toString();
+  }
+  centerImages();
+</script>
+</body>
+</html>
